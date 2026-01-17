@@ -1,0 +1,312 @@
+/* habitPomodoro_2.0 — clean UI (white + green + red) */
+
+/* === Kolory (podmień na HEX z logo jeśli chcesz 1:1) === */
+:root{
+  --bg: #ffffff;
+  --text: #111827;         /* prawie czarny */
+  --muted: #6b7280;        /* szary */
+  --border: #e5e7eb;       /* jasna obwódka */
+  --card: #ffffff;
+
+  /* ✅ Zielony (główne przyciski) */
+  --green: #16a34a;
+  --green-700: #15803d;
+
+  /* ✅ Czerwony (akcenty/dodatki) */
+  --red: #dc2626;
+  --red-700: #b91c1c;
+
+  --shadow: 0 6px 18px rgba(17,24,39,0.06);
+  --radius: 14px;
+
+  --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+}
+
+*{ box-sizing: border-box; }
+html, body{ height:100%; }
+body{
+  margin: 0;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Kontener aplikacji (jeśli masz #app / .app, oba zadziałają) */
+#app, .app{
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* Nagłówek */
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  background: var(--card);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  font-weight: 700;
+}
+.brand img{
+  width: 32px;
+  height: 32px;
+}
+
+/* Nawigacja (jeśli masz linki/taby) */
+.nav{
+  display:flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.nav a, .tab{
+  text-decoration:none;
+  color: var(--text);
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: 10px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+.nav a.active, .tab.active{
+  border-color: var(--green);
+  color: var(--green-700);
+}
+
+/* Typografia */
+.h1{
+  font-size: 22px;
+  font-weight: 800;
+  margin: 8px 0 10px;
+}
+
+.h2{
+  font-size: 16px;
+  font-weight: 800;
+  margin: 10px 0;
+}
+
+.muted{
+  color: var(--muted);
+}
+
+/* Układ pomocniczy */
+.row{
+  display:flex;
+  gap: 10px;
+  align-items:center;
+  flex-wrap: wrap;
+}
+
+.card{
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  box-shadow: var(--shadow);
+}
+
+/* Badge / pill */
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #fff;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+/* Timer (Pomodoro) */
+.timer{
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 14px;
+  text-align:center;
+  font-size: 44px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+/* Przyciski */
+.btn{
+  appearance: none;
+  border: 1px solid var(--green);
+  background: var(--green);
+  color: #fff;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.05s ease, background 0.12s ease, border-color 0.12s ease;
+}
+.btn:hover{
+  background: var(--green-700);
+  border-color: var(--green-700);
+}
+.btn:active{
+  transform: translateY(1px);
+}
+.btn:disabled{
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Wariant “secondary” = biały z zieloną ramką */
+.btn.secondary{
+  background: #fff;
+  color: var(--green-700);
+  border-color: var(--border);
+}
+.btn.secondary:hover{
+  border-color: var(--green);
+}
+
+/* Akcent czerwony (np. usuń / ostrzeżenia) */
+.btn.danger{
+  border-color: var(--red);
+  background: var(--red);
+}
+.btn.danger:hover{
+  border-color: var(--red-700);
+  background: var(--red-700);
+}
+
+/* Formularze */
+input, select, textarea{
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 12px;
+  font-size: 14px;
+  outline: none;
+  background: #fff;
+  color: var(--text);
+}
+input:focus, select:focus, textarea:focus{
+  border-color: var(--green);
+}
+
+/* Lista (habits) — bez wiedzy o Twoich klasach robię “bezpieczne” style */
+.list{
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  background:#fff;
+  box-shadow: var(--shadow);
+}
+
+.item-left{
+  display:flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.item-title{
+  font-weight: 900;
+}
+.item-sub{
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* Checkbox / toggle (jeśli używasz) */
+.check{
+  width: 18px;
+  height: 18px;
+  accent-color: var(--green);
+}
+
+/* Akcent czerwony tekstowy */
+.text-danger{ color: var(--red); }
+
+/* Offline banner */
+.offline-banner{
+  position: sticky;
+  top: 10px;
+  z-index: 10;
+  margin: 10px 0 14px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--red);
+  background: #fff;
+  color: var(--red);
+  font-weight: 800;
+}
+
+/* Responsywność */
+@media (max-width: 420px){
+  #app, .app{ padding: 12px; }
+  .timer{ font-size: 40px; }
+  .btn{ width: 100%; justify-content:center; }
+  .nav{ width: 100%; }
+  .nav a, .tab{ flex: 1; text-align:center; }
+}
+/* ===== Sidebar z zakładkami (lewa kolumna) ===== */
+
+/* Jeśli nawigacja jest w .header, pozwól jej się układać sensownie */
+.header{
+  align-items: flex-start;
+}
+
+/* Zakładki pionowo, po lewej */
+.nav{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;      /* ważne: bez zawijania */
+  gap: 10px;
+  align-items: stretch;   /* każdy link pełnej szerokości */
+  width: 180px;           /* dopasuj jak chcesz: 160-220px */
+}
+
+/* Linki zakładek jako “pigułki” w pełnej szerokości */
+.nav a, .tab{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  white-space: nowrap;
+  justify-content: flex-start;
+}
+
+/* Układ strony: lewa kolumna (nav) + prawa (content)
+   Jeśli masz wrapper typu .layout/.shell/.page to daj znać – dopasuję 1:1.
+   Poniżej jest bezpieczna wersja: gdy .nav i główna treść są obok siebie w headerze. */
+.header{
+  gap: 14px;
+}
+
+/* Responsywność: na telefonie sidebar robi się poziomy u góry */
+@media (max-width: 700px){
+  .nav{
+    flex-direction: row;
+    width: 100%;
+    overflow-x: auto;
+  }
+  .nav a, .tab{
+    width: auto;
+  }
+}
