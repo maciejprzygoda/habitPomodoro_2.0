@@ -47,6 +47,7 @@ self.addEventListener('fetch', (event)=>{
     return;
   }
 
+  
   // App shell: cache-first
   if(APP_SHELL.some(p => req.url.endsWith(p.replace('./','')))){
     event.respondWith(

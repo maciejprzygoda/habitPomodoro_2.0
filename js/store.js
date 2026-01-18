@@ -62,6 +62,7 @@ export async function loadHabits(){
   }
 }
 
+
 export async function saveHabits(habits){
   try{ await idbSet('habits', habits); }catch(_){/* ignore */}
   try{ localStorage.setItem(LS_KEY, JSON.stringify(habits)); }catch(_){/* ignore */}

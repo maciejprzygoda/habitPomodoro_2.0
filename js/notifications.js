@@ -71,7 +71,7 @@ export function scheduleHabitReminders(habits){
     for(const h of habits){
       if(!h.reminderEnabled || !h.reminderTime) continue;
 
-      // jak czas się zgadza i dziś jeszcze nie było powiadomienia dla tego nawyku
+      // przypomnienie o celu -  weryfikacja warunkow
       if(h.reminderTime === now){
         const key = firedKey(h.id, ymd);
         if(localStorage.getItem(key) === '1') continue;

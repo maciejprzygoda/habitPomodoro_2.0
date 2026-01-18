@@ -1,6 +1,6 @@
-/* habitPomodoro_2.0 — clean UI (white + green + red, bez gradientów) */
+/* habitPomodoro_2.0 */
 
-:root{
+:root {
   --bg: #ffffff;
   --text: #111827;
   --muted: #6b7280;
@@ -13,32 +13,39 @@
   --red: #dc2626;
   --red-700: #b91c1c;
 
-  --shadow: 0 6px 18px rgba(17,24,39,0.06);
+  --shadow: 0 6px 18px rgba(17, 24, 39, 0.06);
   --radius: 14px;
 
-  --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    "Noto Sans", "Liberation Sans", sans-serif;
 }
 
-*{ box-sizing: border-box; }
-html, body{ height:100%; }
-body{
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+}
+body {
   margin: 0;
   font-family: var(--font);
   background: var(--bg);
   color: var(--text);
 }
 
-/* app wrapper */
-#app, .app{
+/* wrapper */
+#app,
+.app {
   max-width: 980px;
   margin: 0 auto;
   padding: 16px;
 }
 
 /* header + sidebar tabs */
-.header{
-  display:flex;
-  align-items:flex-start;
+.header {
+  display: flex;
+  align-items: flex-start;
   gap: 14px;
   padding: 14px 16px;
   border: 1px solid var(--border);
@@ -47,20 +54,20 @@ body{
   background: var(--card);
 }
 
-.brand{
-  display:flex;
-  align-items:center;
+.brand {
+  display: flex;
+  align-items: center;
   gap: 10px;
   font-weight: 700;
 }
-.brand img{
+.brand img {
   width: 32px;
   height: 32px;
 }
 
 /* zakładki po lewej */
-.nav{
-  display:flex;
+.nav {
+  display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   gap: 10px;
@@ -68,8 +75,9 @@ body{
   width: 180px;
 }
 
-.nav a, .tab{
-  text-decoration:none;
+.nav a,
+.tab {
+  text-decoration: none;
   color: var(--text);
   border: 1px solid var(--border);
   background: #fff;
@@ -77,43 +85,42 @@ body{
   border-radius: 999px;
   font-weight: 600;
 
-  display:flex;
-  align-items:center;
+  display: flex;
+  align-items: center;
   gap: 10px;
   width: 100%;
   white-space: nowrap;
   justify-content: flex-start;
 }
 
-.nav a.active, .tab.active{
+.nav a.active,
+.tab.active {
   border-color: var(--green);
   color: var(--green-700);
 }
 
-/* typography */
-.h1{
+.h1 {
   font-size: 22px;
   font-weight: 800;
   margin: 8px 0 10px;
 }
-.h2{
+.h2 {
   font-size: 16px;
   font-weight: 800;
   margin: 10px 0;
 }
-.muted{
+.muted {
   color: var(--muted);
 }
 
-/* layout helpers */
-.row{
-  display:flex;
+.row {
+  display: flex;
   gap: 10px;
-  align-items:center;
+  align-items: center;
   flex-wrap: wrap;
 }
 
-.card{
+.card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -121,9 +128,9 @@ body{
   box-shadow: var(--shadow);
 }
 
-.pill{
-  display:inline-flex;
-  align-items:center;
+.pill {
+  display: inline-flex;
+  align-items: center;
   gap: 8px;
   padding: 6px 10px;
   border-radius: 999px;
@@ -133,8 +140,7 @@ body{
   font-size: 12px;
 }
 
-/* buttons */
-.btn{
+.btn {
   appearance: none;
   border: 1px solid var(--green);
   background: var(--green);
@@ -143,43 +149,42 @@ body{
   padding: 12px 14px;
   font-weight: 800;
   cursor: pointer;
-  transition: transform 0.05s ease, background 0.12s ease, border-color 0.12s ease;
+  transition: transform 0.05s ease, background 0.12s ease,
+    border-color 0.12s ease;
 }
-.btn:hover{
+.btn:hover {
   background: var(--green-700);
   border-color: var(--green-700);
 }
-.btn:active{
+.btn:active {
   transform: translateY(1px);
 }
-.btn:disabled{
+.btn:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
 
-.btn.secondary{
+.btn.secondary {
   background: #fff;
   color: var(--green-700);
   border-color: var(--border);
 }
-.btn.secondary:hover{
+.btn.secondary:hover {
   border-color: var(--green);
 }
 
-.btn.danger{
+.btn.danger {
   border-color: var(--red);
   background: var(--red);
 }
-.btn.danger:hover{
+.btn.danger:hover {
   border-color: var(--red-700);
   background: var(--red-700);
 }
 
-/* forms
-   ważne: nie dajemy width:100% na checkbox/radio, bo psuje układ */
 input:not([type="checkbox"]):not([type="radio"]),
 select,
-textarea{
+textarea {
   width: 100%;
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -191,25 +196,23 @@ textarea{
 }
 input:not([type="checkbox"]):not([type="radio"]):focus,
 select:focus,
-textarea:focus{
+textarea:focus {
   border-color: var(--green);
 }
 
-/* checkbox w formie */
-input[type="checkbox"]{
+input[type="checkbox"] {
   width: auto;
   height: auto;
   margin: 0;
   accent-color: var(--green);
 }
 
-/* timer (pomodoro) */
-.timer{
+.timer {
   margin: 16px 0;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 18px 14px;
-  text-align:center;
+  text-align: center;
   font-size: 44px;
   font-weight: 900;
   letter-spacing: 1px;
@@ -217,44 +220,42 @@ input[type="checkbox"]{
   box-shadow: var(--shadow);
 }
 
-/* habits list */
-.list{
-  display:flex;
+.list {
+  display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.item{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 10px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 12px;
-  background:#fff;
+  background: #fff;
   box-shadow: var(--shadow);
 }
 
-.item__main{
-  display:flex;
-  align-items:center;
+.item__main {
+  display: flex;
+  align-items: center;
   gap: 12px;
   min-width: 0;
 }
 
-.item__title{
+.item__title {
   font-weight: 900;
 }
 
-.item__meta{
+.item__meta {
   color: var(--muted);
   font-size: 12px;
   margin-top: 2px;
 }
 
-/* check button (to jest button, nie checkbox) */
-.check{
+.check {
   width: 28px;
   height: 28px;
   border-radius: 10px;
@@ -262,27 +263,25 @@ input[type="checkbox"]{
   background: #fff;
   color: var(--green-700);
   font-weight: 900;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   flex: 0 0 auto;
 }
-.check.done{
+.check.done {
   border-color: var(--green);
 }
 
-/* poprawa układu przypomnienia w habitForm (checkbox + tekst + godzina w jednej linii) */
-#habitForm label.row{
-  display:flex;
-  align-items:center;
+#habitForm label.row {
+  display: flex;
+  align-items: center;
   gap: 10px;
   flex: 1;
   min-width: 0;
 }
 
-/* input time ma stałą szerokość i nie rozpycha się na 100% */
-#habitForm label.row + input[type="time"]{
+#habitForm label.row + input[type="time"] {
   width: 160px;
   flex: 0 0 160px;
   height: 40px;
@@ -290,13 +289,11 @@ input[type="checkbox"]{
   font-size: 14px;
 }
 
-/* dodatkowo: wiersz z label + time nie powinien się zawijać */
-#habitForm label.row + input[type="time"]{
+#habitForm label.row + input[type="time"] {
   margin-left: 10px;
 }
 
-/* offline banner (jeśli używasz) */
-.offline-banner{
+.offline-banner {
   position: sticky;
   top: 10px;
   z-index: 10;
@@ -309,31 +306,42 @@ input[type="checkbox"]{
   font-weight: 800;
 }
 
-.text-danger{ color: var(--red); }
+.text-danger {
+  color: var(--red);
+}
 
 /* responsywność */
-@media (max-width: 700px){
-  #app, .app{ padding: 12px; }
+@media (max-width: 700px) {
+  #app,
+  .app {
+    padding: 12px;
+  }
 
-  .header{
+  .header {
     flex-direction: column;
   }
 
-  .nav{
+  .nav {
     flex-direction: row;
     width: 100%;
     overflow-x: auto;
   }
 
-  .nav a, .tab{
+  .nav a,
+  .tab {
     width: auto;
   }
 }
 
-@media (max-width: 420px){
-  .timer{ font-size: 40px; }
-  .btn{ width: 100%; justify-content:center; }
-  #habitForm label.row + input[type="time"]{
+@media (max-width: 420px) {
+  .timer {
+    font-size: 40px;
+  }
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  #habitForm label.row + input[type="time"] {
     width: 140px;
     flex-basis: 140px;
   }

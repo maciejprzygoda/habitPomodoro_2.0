@@ -51,8 +51,8 @@ function computeKPIs(){
 
   const totalDone = state.habits.reduce((acc, h) => acc + (Array.isArray(h.doneDates) ? h.doneDates.length : 0), 0);
 
-  // poziom rośnie co 10 wykonań
-  const level = Math.floor(totalDone / 10);
+  // poziom rośnie co 5 wykonań
+  const level = Math.floor(totalDone / 5);
 
   const doneToday = state.habits.filter(h => Array.isArray(h.doneDates) && h.doneDates.includes(today)).length;
 

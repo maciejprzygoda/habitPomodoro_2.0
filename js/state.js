@@ -6,7 +6,7 @@ export const state = {
 
 export async function initState(){
   state.habits = await loadHabits();
-  // hardening: ensure fields exist
+
   state.habits = state.habits.map(h => ({
     id: h.id ?? String(Date.now()),
     name: String(h.name ?? ''),
@@ -29,3 +29,4 @@ export function todayISO(){
 export function pad2(n){
   return String(n).padStart(2,'0');
 }
+

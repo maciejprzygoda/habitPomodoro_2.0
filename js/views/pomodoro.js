@@ -26,7 +26,7 @@ function setMode(next) {
   stop(); // zapewnia, że interval jest wyczyszczony
 }
 
-// 1 "tik" timera, zmniejsza czas i sprawdza czy koniec
+//  timer, zmniejsza czas i sprawdza czy koniec
 function tick(navigate) {
   secondsLeft -= 1;
 
@@ -39,16 +39,16 @@ function tick(navigate) {
     const body = mode === 'work' ? 'Czas na przerwę!' : 'Wracaj do pracy!';
     showNotification(title, body);
 
-    // przełączamy tryb po zakończeniu
+    // przełączam tryb po zakończeniu
     setMode(mode === 'work' ? 'break' : 'work');
 
-    // odświeżamy widok pomodoro
+    // odświeżam  pomodoro
     navigate('/pomodoro');
     return;
   }
 }
 
-// start odliczania (ustawia interval)
+// start odliczania 
 function start(navigate) {
   if (isRunning) return;
   isRunning = true;
@@ -126,7 +126,7 @@ export function bindPomodoro(container, navigate) {
   if (container.dataset.pomodoroBound === '1') return;
   container.dataset.pomodoroBound = '1';
 
-  // sprawdzam co było kliknięte
+  // sprawdza co było kliknięte
   container.addEventListener('click', (e) => {
     const b = e.target.closest('button');
     if (!b) return;

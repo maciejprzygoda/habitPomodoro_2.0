@@ -1,7 +1,7 @@
 import { state, todayISO } from '../state.js';
 
 function countInLastNDays(dates, n){
-  // liczy ile dat z listy mieści się w ostatnich n dniach
+  // liczy ile dat z listy mieści się w ostatnich n dniach 
   const now = new Date();
   now.setHours(0,0,0,0);
   const start = new Date(now);
