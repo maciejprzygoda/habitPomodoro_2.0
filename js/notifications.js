@@ -1,10 +1,12 @@
 import { pad2 } from './state.js';
 
 export function notificationsSupported(){
+  // sprawdza czy przeglądarka ogarnia Notification API
   return 'Notification' in window;
 }
 
 export async function ensureNotificationPermission(){
+  // tu prosimy o zgodę na powiadomienia (albo sprawdzamy czy już jest)
   if(!notificationsSupported()){
     return { ok:false, reason:'Brak wsparcia Notification API w tej przeglądarce.' };
   }
@@ -17,8 +19,8 @@ export async function ensureNotificationPermission(){
 }
 
 export function showNotification(title, body){
+  //  pokazanie powiadomienia 
   if(Notification.permission !== 'granted') return;
-  // w PWA możesz też użyć ServiceWorkerRegistration.showNotification, ale tutaj trzymamy prostą wersję.
   new Notification(title, {
     body,
     icon: './assets/icon-192.png',
@@ -26,42 +28,63 @@ export function showNotification(title, body){
   });
 }
 
-// Uwaga: bez Web Push / backendu nie da się w pełni niezawodnie „zaplanować” powiadomień,
-// gdy aplikacja jest zamknięta. Na zaliczenie często wystarczy pokazanie implementacji API + działanie gdy app jest otwarta.
-const timeouts = new Map();
+let intervalId = null;
+
+// klucz do localStorage, żeby nie wysyłać 10 razy tego samego w tej samej minucie
+function firedKey(habitId, ymd){
+  return `habit_reminder_fired_${habitId}_${ymd}`;
+}
+
+// dzisiejsza data w formacie yyyy-mm-dd
+function todayYMD(){
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
 
 export function clearAllScheduled(){
-  for(const t of timeouts.values()) clearTimeout(t);
-  timeouts.clear();
-}
-
-function nextTriggerMs(timeHHMM){
-  const [hh, mm] = String(timeHHMM).split(':').map(Number);
-  const now = new Date();
-  const t = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hh, mm, 0, 0);
-  if(t <= now) t.setDate(t.getDate()+1);
-  return t.getTime() - now.getTime();
-}
-
-export function scheduleHabitReminders(habits){
-  clearAllScheduled();
-  if(Notification.permission !== 'granted') return;
-
-  for(const h of habits){
-    if(!h.reminderEnabled || !h.reminderTime) continue;
-    const delay = nextTriggerMs(h.reminderTime);
-    const id = setTimeout(function fire(){
-      showNotification('Przypomnienie o nawyku!', `Pora: ${h.name}`);
-      // ponownie za 24h
-      const next = setTimeout(fire, 24*60*60*1000);
-      timeouts.set(h.id, next);
-    }, delay);
-    timeouts.set(h.id, id);
+  // zatrzymuje watcher jeśli był odpalony
+  if(intervalId){
+    clearInterval(intervalId);
+    intervalId = null;
   }
 }
 
+// aktualny czas hh:mm (sekundy nas nie interesują)
+function nowHHMM(){
+  const d = new Date();
+  return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+}
+
+export function scheduleHabitReminders(habits){
+  // startuje sprawdzanie przypomnień dla listy nawyków
+  clearAllScheduled();
+  if(Notification.permission !== 'granted') return;
+
+  // sprawdzanie czasu
+  intervalId = setInterval(() => {
+    const now = nowHHMM();
+    const ymd = todayYMD();
+
+    for(const h of habits){
+      if(!h.reminderEnabled || !h.reminderTime) continue;
+
+      // jak czas się zgadza i dziś jeszcze nie było powiadomienia dla tego nawyku
+      if(h.reminderTime === now){
+        const key = firedKey(h.id, ymd);
+        if(localStorage.getItem(key) === '1') continue;
+
+        showNotification('Przypomnienie o nawyku!', `Pora na: ${h.name}`);
+        localStorage.setItem(key, '1');
+      }
+    }
+  }, 20000);
+}
+
 export function formatTimeFromInput(inputValue){
-  // input type=time zwraca HH:MM
+  // input type=time zwraca hh:mm, tu tylko robimy ładny format
   if(!inputValue) return null;
   const [h,m] = inputValue.split(':');
   return `${pad2(h)}:${pad2(m)}`;

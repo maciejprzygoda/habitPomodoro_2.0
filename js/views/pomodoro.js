@@ -1,8 +1,10 @@
 import { showNotification } from '../notifications.js';
 
+// gotowe presety czasu do kliknięcia
 const POMODORO_TIMES = [10, 15, 25, 45];
-const BREAK_TIMES = [3, 5, 10];
+const BREAK_TIMES = [1, 3, 10];
 
+// proste zmienne stanu timera
 let mode = 'work';
 let workDuration = 25;
 let breakDuration = 5;
@@ -10,18 +12,21 @@ let secondsLeft = workDuration * 60;
 let isRunning = false;
 let timerId = null;
 
+// formatowanie sekund na mm:ss
 function formatTime(secs) {
   const m = String(Math.floor(secs / 60)).padStart(2, '0');
   const s = String(secs % 60).padStart(2, '0');
   return `${m}:${s}`;
 }
 
+// przełącza tryb pracy/przerwy i ustawia nowy czas
 function setMode(next) {
   mode = next;
   secondsLeft = (mode === 'work' ? workDuration : breakDuration) * 60;
   stop(); // zapewnia, że interval jest wyczyszczony
 }
 
+// 1 "tik" timera, zmniejsza czas i sprawdza czy koniec
 function tick(navigate) {
   secondsLeft -= 1;
 
@@ -29,19 +34,21 @@ function tick(navigate) {
     stop();
     secondsLeft = 0;
 
+    // tekst powiadomienia zależny od trybu
     const title = mode === 'work' ? 'Brawo!' : 'Koniec przerwy';
     const body = mode === 'work' ? 'Czas na przerwę!' : 'Wracaj do pracy!';
     showNotification(title, body);
 
-    // UX: przełącz tryb, ale nie startuj automatycznie
+    // przełączamy tryb po zakończeniu
     setMode(mode === 'work' ? 'break' : 'work');
 
-    // prze-renderuj widok raz
+    // odświeżamy widok pomodoro
     navigate('/pomodoro');
     return;
   }
 }
 
+// start odliczania (ustawia interval)
 function start(navigate) {
   if (isRunning) return;
   isRunning = true;
@@ -49,12 +56,13 @@ function start(navigate) {
   timerId = setInterval(() => {
     tick(navigate);
 
-    // Aktualizacja UI bez konieczności pełnego re-renderu
+    // podmiana samego tekstu timera bez całego renderu
     const el = document.querySelector('[data-pomo-timer]');
     if (el) el.textContent = formatTime(secondsLeft);
   }, 1000);
 }
 
+// zatrzymanie timera
 function stop() {
   isRunning = false;
   if (timerId) {
@@ -63,18 +71,21 @@ function stop() {
   }
 }
 
+//  timer reset
 function reset() {
   stop();
   secondsLeft = (mode === 'work' ? workDuration : breakDuration) * 60;
 }
 
 export function renderPomodoro() {
-  const header = mode === 'work' ? '⏳ Czas pracy' : '☕ Przerwa';
+  const header = mode === 'work' ? 'Czas pracy' : 'Przerwa';
 
+  // generowanie przycisków dla czasu pracy
   const btnsWork = POMODORO_TIMES.map((min) => `
     <button class="btn secondary" data-set="work" data-min="${min}" ${isRunning ? 'disabled' : ''}>${min} min</button>
   `).join('');
 
+  // generowanie przycisków dla przerwy
   const btnsBreak = BREAK_TIMES.map((min) => `
     <button class="btn secondary" data-set="break" data-min="${min}" ${isRunning ? 'disabled' : ''}>${min} min</button>
   `).join('');
@@ -110,15 +121,17 @@ export function renderPomodoro() {
 }
 
 export function bindPomodoro(container, navigate) {
-  // ✅ KLUCZOWA POPRAWKA:
-  // Nie doklejaj kolejnego listenera, jeśli ten widok był już zbindowany.
+  
+  // nie dokleja kolejnego listenera jak widok się renderuje kilka razy
   if (container.dataset.pomodoroBound === '1') return;
   container.dataset.pomodoroBound = '1';
 
+  // sprawdzam co było kliknięte
   container.addEventListener('click', (e) => {
     const b = e.target.closest('button');
     if (!b) return;
 
+    // ustawianie czasu z presetów
     const set = b.dataset.set;
     if (set && !isRunning) {
       const min = Number(b.dataset.min);
@@ -137,6 +150,7 @@ export function bindPomodoro(container, navigate) {
 
     const action = b.dataset.action;
 
+    // start/pauza
     if (action === 'toggle') {
       if (isRunning) stop();
       else start(navigate);
@@ -145,12 +159,14 @@ export function bindPomodoro(container, navigate) {
       return;
     }
 
+    // reset
     if (action === 'reset') {
       reset();
       navigate('/pomodoro');
       return;
     }
 
+    // reczne przełaczanie trybu pracy/przerwy
     if (action === 'switch') {
       setMode(mode === 'work' ? 'break' : 'work');
       navigate('/pomodoro');
